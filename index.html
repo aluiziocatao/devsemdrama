@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DevSemDrama · Exercícios</title>
+<meta name="description" content="Exercícios rápidos de lógica de programação, um para cada vídeo do DevSemDrama.">
+<meta property="og:title" content="DevSemDrama · Exercícios">
+<meta property="og:description" content="Assistiu o vídeo? Agora testa se aprendeu. Exercícios rápidos de lógica de programação.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1016;--card:#161b22;--line:#2a313c;--txt:#e6edf3;--mut:#8b96a5;--y:#FFD400;--g:#7ac943;--r:#ff6b6b;--b:#61afef}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font:600 17px/1.55 Montserrat,system-ui,sans-serif;min-height:100vh}
+a{color:inherit}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 64px}
+header{padding:28px 0 8px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-weight:900;font-size:22px;text-decoration:none;letter-spacing:-.5px}
+.logo b{color:var(--y)} .logo i{font-style:normal;color:var(--g)}
+.tk{font-size:14px;font-weight:800;text-decoration:none;background:var(--y);color:#0d1016;padding:8px 14px;border-radius:40px;white-space:nowrap}
+.hero{padding:28px 0 20px}
+.hero h1{font-weight:900;font-size:clamp(32px,8vw,48px);line-height:1.05;letter-spacing:-1.5px}
+.hero h1 span{color:var(--y)}
+.hero p{color:var(--mut);margin-top:12px;max-width:520px}
+.prog{margin:22px 0 6px;height:10px;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.prog div{height:100%;background:var(--y);width:0;transition:width .4s}
+.progtxt{font-size:14px;color:var(--mut)}
+.grid{display:grid;gap:12px;margin-top:22px}
+.aula{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;text-decoration:none;transition:border-color .2s,transform .2s}
+.aula:hover{border-color:var(--y);transform:translateY(-2px)}
+.num{font:500 15px 'JetBrains Mono',monospace;color:var(--y);background:rgba(255,212,0,.1);border-radius:10px;padding:8px 10px;flex:none}
+.aula h3{font-weight:800;font-size:17px;line-height:1.25}
+.aula small{display:block;color:var(--mut);font-weight:600;font-size:13px;margin-top:2px}
+.st{margin-left:auto;font-size:13px;font-weight:800;white-space:nowrap;color:var(--mut)}
+.st.ok{color:var(--g)}
+.back{display:inline-block;margin:18px 0 6px;color:var(--mut);text-decoration:none;font-size:15px}
+.back:hover{color:var(--y)}
+.ah{padding:6px 0 10px}
+.ah .num{display:inline-block;margin-bottom:10px}
+.ah h2{font-weight:900;font-size:clamp(26px,6.5vw,36px);line-height:1.1;letter-spacing:-1px}
+.ah p{color:var(--mut);margin-top:8px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 18px;margin-top:16px}
+.q .qn{font-size:13px;color:var(--y);font-weight:800;letter-spacing:.5px}
+.q h4{font-weight:800;font-size:18px;line-height:1.35;margin:6px 0 12px}
+pre{background:#0b0e13;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font:500 15px/1.6 'JetBrains Mono',monospace;overflow-x:auto;margin:0 0 14px;font-variant-ligatures:none}
+.k{color:#c678dd}.s{color:#98c379}.n{color:#d19a66}.c{color:#7f8b99}.f{color:var(--b)}
+.ops{display:grid;gap:8px}
+.op{all:unset;box-sizing:border-box;display:block;cursor:pointer;background:#1c222b;border:2px solid var(--line);border-radius:12px;padding:12px 14px;font-weight:600;line-height:1.4;transition:border-color .15s,background .15s}
+.op code{font:500 15px 'JetBrains Mono',monospace}
+.op:hover:not([disabled]){border-color:#4b5563}
+.op:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.op.right{border-color:var(--g);background:rgba(122,201,67,.12)}
+.op.wrong{border-color:var(--r);background:rgba(255,107,107,.1)}
+.op[disabled]{cursor:default}
+.exp{margin-top:12px;padding:12px 14px;border-radius:12px;background:rgba(255,212,0,.07);border-left:4px solid var(--y);font-size:15px;display:none}
+.exp.on{display:block}
+.exp b{color:var(--y)}
+.des{background:linear-gradient(135deg,rgba(255,212,0,.1),rgba(122,201,67,.06));border:1px dashed var(--y);border-radius:18px;padding:20px 18px;margin-top:22px}
+.des .qn{color:var(--y);font-size:13px;font-weight:900;letter-spacing:.5px}
+.des h4{font-weight:800;font-size:18px;margin:6px 0 12px;line-height:1.35}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-block;background:var(--y);color:#0d1016;font-weight:900;padding:12px 20px;border-radius:40px;font-size:15px}
+.btn.alt{background:transparent;color:var(--txt);border:2px solid var(--line)}
+.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.ans{display:none;margin-top:14px}.ans.on{display:block}
+.score{text-align:center;margin-top:26px;padding:24px 18px;background:var(--card);border:1px solid var(--line);border-radius:18px;display:none}
+.score.on{display:block}
+.score .big{font-weight:900;font-size:44px;color:var(--y);line-height:1}
+.score p{color:var(--mut);margin:8px 0 16px}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@media (max-width:420px){pre{font-size:13px;padding:12px}.op code{font-size:13.5px}}
+footer{margin-top:44px;text-align:center;color:var(--mut);font-size:14px}
+footer button{all:unset;cursor:pointer;text-decoration:underline;color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="#">&lt;/&gt; Dev<i>Sem</i><b>Drama</b></a>
+    <a class="tk" href="https://www.tiktok.com/@devsemdrama" target="_blank" rel="noopener">Seguir no TikTok</a>
+  </header>
+  <main id="app"></main>
+  <footer>
+    <p>Programação sem drama. Um exercício para cada vídeo.</p>
+    <p style="margin-top:6px"><button id="reset">Apagar meu progresso</button></p>
+  </footer>
+</div>
+
+<script>
+// ============================================================
+//  CONTEÚDO: um item por vídeo. Para adicionar o vídeo 09,
+//  copie um bloco, troque o número e escreva as perguntas.
+//  c = índice da alternativa certa (0 = primeira).
+// ============================================================
+const AULAS = [
+ {n:'01', t:'Copiar código não é aprender', d:'Faz o teste: dá pra explicar o código que você copiou?',
+  q:[
+   {p:'O que essa linha de código faz?', code:'const total = itens.reduce((acc, i) => acc + i.preco, 0);',
+    o:['Ordena os itens pelo preço','Soma o preço de todos os itens','Conta quantos itens existem','Pega o item mais caro'], c:1,
+    e:'O <b>reduce</b> passa por cada item e vai acumulando em <code>acc</code>. Como cada passo faz <code>acc + i.preco</code>, no fim temos a soma dos preços.'},
+   {p:'Nesse mesmo código, o que é o <code>0</code> no final?',
+    o:['O índice do primeiro item','O preço mínimo permitido','O valor inicial do acumulador','A quantidade de itens'], c:2,
+    e:'O segundo argumento do reduce é o <b>valor inicial</b>. A soma começa em 0 e vai crescendo a cada item.'},
+   {p:'Você copiou um código e ele funcionou. Qual o melhor próximo passo?',
+    o:['Seguir para o próximo tutorial','Explicar cada linha e mudar algo pra ver o que acontece','Salvar e nunca mais mexer','Copiar outra versão pra comparar'], c:1,
+    e:'Funcionar não é entender. Mudar valores, apagar uma linha e prever o resultado é o que transforma cópia em <b>aprendizado</b>.'}
+  ],
+  x:{p:'Sem rodar o código: qual é o resultado?', code:'const itens = [{ preco: 10 }, { preco: 25 }, { preco: 5 }];\nconst total = itens.reduce((acc, i) => acc + i.preco, 0);\nconsole.log(total);',
+     r:'<b>40</b>. O acumulador começa em 0 e soma: 0 + 10 = 10, depois 10 + 25 = 35, depois 35 + 5 = 40.'}},
+
+ {n:'02', t:'Linguagem não importa', d:'Mesma lógica, sintaxe diferente.',
+  q:[
+   {p:'Em Python, o que esse código mostra?', code:'idade = 16\nif idade >= 18:\n    print("Pode entrar")\nelse:\n    print("Não pode")',
+    o:['Pode entrar','Não pode','Nada','Dá erro'], c:1,
+    e:'16 não é maior nem igual a 18, então a condição é falsa e o código cai no <b>else</b>.'},
+   {p:'Qual é o equivalente em JavaScript de <code>if idade &gt;= 18:</code> em Python?',
+    o:['<code>if idade >= 18 then</code>','<code>when (idade >= 18)</code>','<code>if (idade >= 18) {</code>','<code>if [idade >= 18]:</code>'], c:2,
+    e:'JavaScript (assim como Java e C#) usa parênteses na condição e chaves no bloco. A <b>lógica</b> é idêntica, só a escrita muda.'},
+   {p:'Quando você troca de linguagem, o que mais muda?',
+    o:['A sintaxe, o jeito de escrever','A lógica do programa','O que é uma condição','O que é uma variável'], c:0,
+    e:'Variável, condição e repetição existem em todas. O que muda é a <b>sintaxe</b>. Por isso quem entende lógica aprende a próxima linguagem bem mais rápido.'}
+  ],
+  x:{p:'Reescreva em JavaScript:', code:'nota = 7\nif nota >= 6:\n    print("Aprovado")\nelse:\n    print("Reprovado")',
+     r:'<pre><span class="k">let</span> nota = <span class="n">7</span>;\n<span class="k">if</span> (nota >= <span class="n">6</span>) {\n  console.<span class="f">log</span>(<span class="s">"Aprovado"</span>);\n} <span class="k">else</span> {\n  console.<span class="f">log</span>(<span class="s">"Reprovado"</span>);\n}</pre>'}},
+
+ {n:'03', t:'IA vai acabar com dev?', d:'A IA escreve rápido. Quem revisa é você.',
+  q:[
+   {p:'Qual é o resultado de <code>desconto(100, 120)</code>?', code:'function desconto(preco, pct) {\n  return preco - preco * pct / 100;\n}',
+    o:['0','100','-20','120'], c:2,
+    e:'100 × 120 / 100 = 120. Então 100 − 120 = <b>−20</b>. Preço negativo: a loja pagaria o cliente.'},
+   {p:'E qual é o resultado de <code>desconto(200, 10)</code>?',
+    o:['190','180','20','10'], c:1,
+    e:'200 × 10 / 100 = 20 de desconto. 200 − 20 = <b>180</b>. Para valores normais, a função funciona. O bug só aparece no caso extremo.'},
+   {p:'Qual linha corrige o bug do desconto acima de 100%?',
+    o:['<code>if (pct > 100) pct = 100;</code>','<code>if (preco > 100) preco = 100;</code>','<code>pct = pct * 100;</code>','<code>return 0;</code>'], c:0,
+    e:'Limitando o percentual a 100, o pior caso vira desconto total: o preço fica <b>0</b>, nunca negativo.'},
+   {p:'Qual é o melhor jeito de usar IA pra programar?',
+    o:['Copiar a resposta direto pro projeto','Nunca usar IA','Pedir o código e testar os casos extremos antes de usar','Pedir pra IA escrever o projeto inteiro de uma vez'], c:2,
+    e:'IA é <b>ferramenta</b>. Ela acelera, mas quem testa os casos estranhos (zero, negativo, valor gigante) e decide se está certo é você.'}
+  ],
+  x:{p:'Pense como revisor: que outro valor quebra essa função?', code:'function desconto(preco, pct) {\n  if (pct > 100) pct = 100;\n  return preco - preco * pct / 100;\n}',
+     r:'Um <b>desconto negativo</b>: <code>desconto(100, -50)</code> devolve 150, ou seja, o "desconto" aumenta o preço. A correção completa também limita o mínimo: <code>if (pct &lt; 0) pct = 0;</code>'}},
+
+ {n:'04', t:'Erro não é fracasso', d:'A mensagem de erro é uma pista.',
+  q:[
+   {p:'O que essa mensagem quer dizer?', code:'ReferenceError: nome is not defined',
+    o:['O valor de nome está errado','A variável nome não existe ali','O nome é muito grande','O computador travou'], c:1,
+    e:'<b>ReferenceError</b> aparece quando o código usa algo que não foi declarado (ou foi declarado em outro lugar).'},
+   {p:'Por que esse código dá erro?', code:'let nome = "Ana";\nconsole.log(Nome);',
+    o:['Porque "Ana" precisa de aspas simples','Porque falta ponto e vírgula','Porque Nome com N maiúsculo é outra variável','Não dá erro'], c:2,
+    e:'JavaScript diferencia maiúsculas de minúsculas. <code>nome</code> e <code>Nome</code> são variáveis <b>diferentes</b>, e <code>Nome</code> nunca foi criada.'},
+   {p:'Apareceu um erro. Qual a primeira coisa a fazer?',
+    o:['Apagar o código e começar de novo','Ler a mensagem e ver em qual linha aconteceu','Perguntar no grupo sem ler o erro','Desistir'], c:1,
+    e:'A mensagem diz <b>o quê</b> e a linha diz <b>onde</b>. Na maioria das vezes isso já resolve.'}
+  ],
+  x:{p:'Encontre o erro sem rodar:', code:'let preco = 50;\nlet quantidade = 3;\nconsole.log(preco * quantidad);',
+     r:'Falta o <b>e</b> em <code>quantidad</code>. O JavaScript mostraria <code>ReferenceError: quantidad is not defined</code>. Erro de digitação é um dos mais comuns, e a mensagem aponta exatamente pra ele.'}},
+
+ {n:'05', t:'Por onde começar', d:'A ordem que funciona.',
+  q:[
+   {p:'Qual é a melhor ordem pra começar?',
+    o:['Framework → linguagem → lógica','Lógica → variáveis → condições → repetições → funções','Funções → variáveis → lógica','Banco de dados → API → lógica'], c:1,
+    e:'Cada passo usa o anterior. Sem <b>lógica</b> e variáveis, framework vira decoreba.'},
+   {p:'Qual desses serve pro código tomar decisões?',
+    o:['Variáveis','Repetições','Condições (if / else)','Comentários'], c:2,
+    e:'<b>Condições</b> fazem o código escolher um caminho: se acontecer X, faz Y; senão, faz Z.'},
+   {p:'E qual serve pra fazer a mesma tarefa várias vezes sem repetir código?',
+    o:['Repetições (for / while)','Condições','Variáveis','Strings'], c:0,
+    e:'Com um <b>loop</b> você escreve a tarefa uma vez e manda repetir quantas vezes precisar.'}
+  ],
+  x:{p:'Coloque na ordem certa: funções, lógica, repetições, variáveis, condições.',
+     r:'<b>1.</b> Lógica · <b>2.</b> Variáveis · <b>3.</b> Condições · <b>4.</b> Repetições · <b>5.</b> Funções'}},
+
+ {n:'06', t:'Lógica em 30 segundos', d:'Todo programa decide e repete.',
+  q:[
+   {p:'Se a senha digitada estiver errada, o que acontece?', code:'if (senha === senhaCorreta) {\n  liberar();\n} else {\n  bloquear();\n}',
+    o:['liberar()','bloquear()','As duas','Nenhuma'], c:1,
+    e:'A condição é falsa, então o código executa só o bloco do <b>else</b>.'},
+   {p:'Quantas vezes <code>entregarNota</code> é chamada?', code:'for (let n = 1; n <= 3; n++) {\n  entregarNota(n);\n}',
+    o:['1','2','3','4'], c:2,
+    e:'n vale 1, 2 e 3. Quando vira 4, a condição <code>n &lt;= 3</code> é falsa e o loop para: <b>3 vezes</b>.'},
+   {p:'Em código, decisão e repetição são, respectivamente:',
+    o:['for e if','if e for/while','let e const','function e return'], c:1,
+    e:'<b>if</b> decide. <b>for</b> e <b>while</b> repetem.'}
+  ],
+  x:{p:'E se trocar <code>n &lt;= 3</code> por <code>n &lt; 3</code>, quantas notas saem?', code:'for (let n = 1; n < 3; n++) {\n  entregarNota(n);\n}',
+     r:'<b>2 notas</b> (n = 1 e n = 2). Com 3, a condição <code>3 &lt; 3</code> é falsa. Trocar <code>&lt;=</code> por <code>&lt;</code> é um dos erros mais comuns em loop.'}},
+
+ {n:'07', t:'Variável explicada pra criança', d:'Uma caixa com etiqueta.',
+  q:[
+   {p:'O que aparece no console?', code:'let idade = 20;\nidade = 21;\nconsole.log(idade);',
+    o:['20','21','20 e 21','Erro'], c:1,
+    e:'A caixa guarda só um valor por vez. O 21 <b>substitui</b> o 20.'},
+   {p:'Em <code>let nome = "João";</code>, qual parte é a etiqueta?',
+    o:['let','nome','"João"','o ponto e vírgula'], c:1,
+    e:'<code>nome</code> é o <b>nome da variável</b> (a etiqueta). <code>"João"</code> é o valor guardado dentro.'},
+   {p:'O que aparece no console?', code:'let a = 5;\nlet b = a;\na = 10;\nconsole.log(b);',
+    o:['5','10','15','Erro'], c:0,
+    e:'Quando fizemos <code>b = a</code>, o <b>valor 5 foi copiado</b> pra caixa b. Mudar a depois não mexe em b.'}
+  ],
+  x:{p:'Crie variáveis pra um produto: nome, preço e se está em estoque.',
+     r:'Uma resposta possível:<pre><span class="k">let</span> produto = <span class="s">"Camiseta"</span>;\n<span class="k">let</span> preco = <span class="n">59.90</span>;\n<span class="k">let</span> emEstoque = <span class="k">true</span>;</pre>Repare: texto vai entre aspas, número não, e verdadeiro/falso é <code>true</code>/<code>false</code>.'}},
+
+ {n:'08', t:'IF sem dor', d:'If é só um "se".',
+  q:[
+   {p:'Com saldo 100 e preço 120, o que aparece?', code:'if (saldo >= preco) {\n  console.log("Pode comprar");\n} else {\n  console.log("Saldo insuficiente");\n}',
+    o:['Pode comprar','Saldo insuficiente','As duas','Nada'], c:1,
+    e:'100 não é maior nem igual a 120, então cai no <b>else</b>.'},
+   {p:'E com saldo 80 e preço 80?',
+    o:['Pode comprar','Saldo insuficiente','Erro','Nada'], c:0,
+    e:'O <code>&gt;=</code> significa <b>maior ou igual</b>. 80 é igual a 80, então pode comprar.'},
+   {p:'Se o código usasse <code>saldo &gt; preco</code> (sem o =), o que aconteceria com saldo 80 e preço 80?',
+    o:['Pode comprar','Saldo insuficiente','Erro de sintaxe','Compra duas vezes'], c:1,
+    e:'Com <code>&gt;</code>, 80 &gt; 80 é falso. Um caractere muda a regra do negócio, e é por isso que vale <b>testar o valor exato do limite</b>.'}
+  ],
+  x:{p:'Escreva um if: se a idade for 18 ou mais, mostre "Pode tirar CNH". Senão, mostre "Ainda não".',
+     r:'<pre><span class="k">let</span> idade = <span class="n">17</span>;\n<span class="k">if</span> (idade >= <span class="n">18</span>) {\n  console.<span class="f">log</span>(<span class="s">"Pode tirar CNH"</span>);\n} <span class="k">else</span> {\n  console.<span class="f">log</span>(<span class="s">"Ainda não"</span>);\n}</pre>'}},
+];
+
+// ============================================================
+const KEY = 'devsemdrama-progresso';
+let P = {};
+try { P = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { P = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (e) {} };
+
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function hl(code){
+  const re=/(\/\/.*$|#.*$)|("[^"]*")|\b(let|const|function|if|else|for|while|return|true|false)\b|\b(\d+(?:\.\d+)?)\b|([A-Za-z_]\w*)(?=\()/gm;
+  let out='',last=0,m;
+  while((m=re.exec(code))){out+=esc(code.slice(last,m.index));const x=esc(m[0]);
+    out+=m[1]?`<span class="c">${x}</span>`:m[2]?`<span class="s">${x}</span>`:m[3]?`<span class="k">${x}</span>`:m[4]?`<span class="n">${x}</span>`:`<span class="f">${x}</span>`;last=m.index+m[0].length;}
+  return out+esc(code.slice(last));
+}
+const done = a => Object.keys(P[a.n] || {}).length;
+const hits = a => a.q.filter((q,i)=> (P[a.n]||{})[i] === q.c).length;
+const app = document.getElementById('app');
+
+function home(){
+  const total = AULAS.reduce((s,a)=>s+a.q.length,0);
+  const resp = AULAS.reduce((s,a)=>s+done(a),0);
+  app.innerHTML = `
+  <section class="hero">
+    <h1>Assistiu o vídeo?<br><span>Agora testa.</span></h1>
+    <p>Um exercício rápido pra cada vídeo do DevSemDrama. Sem cadastro, direto do celular.</p>
+    <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${resp}"><div style="width:${100*resp/total}%"></div></div>
+    <div class="progtxt">${resp} de ${total} perguntas respondidas</div>
+  </section>
+  <nav class="grid">
+    ${AULAS.map(a=>{const d=done(a),ok=d===a.q.length;return `
+    <a class="aula" href="#${a.n}">
+      <span class="num">#${a.n}</span>
+      <span><h3>${a.t}</h3><small>${a.d}</small></span>
+      <span class="st ${ok?'ok':''}">${ok?`✓ ${hits(a)}/${a.q.length}`:d?`${d}/${a.q.length}`:'Começar →'}</span>
+    </a>`}).join('')}
+  </nav>`;
+  document.title = 'DevSemDrama · Exercícios';
+}
+
+function aula(a){
+  const i = AULAS.indexOf(a), next = AULAS[i+1];
+  app.innerHTML = `
+  <a class="back" href="#">← Todos os exercícios</a>
+  <section class="ah"><span class="num">#${a.n}</span><h2>${a.t}</h2><p>${a.d}</p></section>
+  ${a.q.map((q,qi)=>`
+  <div class="q" data-q="${qi}">
+    <div class="qn">PERGUNTA ${qi+1} DE ${a.q.length}</div>
+    <h4>${q.p}</h4>
+    ${q.code?`<pre>${hl(q.code)}</pre>`:''}
+    <div class="ops">${q.o.map((o,oi)=>`<button class="op" data-o="${oi}">${o.replace(/<code>(.*?)<\/code>/g,(m,c)=>'<code>'+esc(c.replace(/&lt;/g,'<').replace(/&gt;/g,'>'))+'</code>')}</button>`).join('')}</div>
+    <div class="exp">${q.e}</div>
+  </div>`).join('')}
+  <div class="des">
+    <div class="qn">DESAFIO EXTRA</div>
+    <h4>${a.x.p}</h4>
+    ${a.x.code?`<pre>${hl(a.x.code)}</pre>`:''}
+    <button class="btn alt" id="ver">Tentei. Ver resposta</button>
+    <div class="ans">${a.x.r}</div>
+  </div>
+  <div class="score" id="score">
+    <div class="big"></div>
+    <p></p>
+    <div class="row">
+      ${next?`<a class="btn" href="#${next.n}">Próximo: #${next.n} →</a>`:`<a class="btn" href="#">Ver todos</a>`}
+      <a class="btn alt" href="https://www.tiktok.com/@devsemdrama" target="_blank" rel="noopener">Seguir no TikTok</a>
+    </div>
+  </div>`;
+  document.title = `#${a.n} ${a.t} · DevSemDrama`;
+  app.querySelectorAll('.q').forEach(el=>{
+    const qi = +el.dataset.q, q = a.q[qi];
+    const mark = ch => {
+      el.querySelectorAll('.op').forEach((b,oi)=>{ b.disabled = true;
+        if(oi===q.c) b.classList.add('right'); else if(oi===ch) b.classList.add('wrong'); });
+      const ex = el.querySelector('.exp'); ex.classList.add('on');
+      ex.innerHTML = (ch===q.c?'<b>Isso!</b> ':'<b>Quase.</b> ') + q.e;
+    };
+    const prev = (P[a.n]||{})[qi];
+    if(prev!==undefined) mark(prev);
+    el.querySelectorAll('.op').forEach(b=>b.addEventListener('click',()=>{
+      const ch = +b.dataset.o; P[a.n] = P[a.n]||{}; P[a.n][qi] = ch; save(); mark(ch); upd();
+    }));
+  });
+  document.getElementById('ver').addEventListener('click',e=>{ e.target.style.display='none'; app.querySelector('.ans').classList.add('on'); });
+  const upd = () => {
+    if(done(a)<a.q.length) return;
+    const h = hits(a), s = document.getElementById('score');
+    s.classList.add('on');
+    s.querySelector('.big').textContent = `${h}/${a.q.length}`;
+    s.querySelector('p').textContent = h===a.q.length ? 'Gabaritou. Sem drama.' : h>=a.q.length-1 ? 'Mandou bem. Revê a explicação da que errou.' : 'Tudo bem errar. Assiste o vídeo de novo e tenta mais uma vez.';
+  };
+  upd();
+  window.scrollTo(0,0);
+}
+
+function route(){
+  const n = location.hash.replace('#','');
+  const a = AULAS.find(x=>x.n===n);
+  a ? aula(a) : home();
+}
+window.addEventListener('hashchange', route);
+document.getElementById('reset').addEventListener('click',()=>{ P={}; save(); route(); });
+route();
+</script>
+</body>
+</html>
