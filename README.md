@@ -4,7 +4,7 @@
 
 Exercícios rápidos de lógica de programação, um para cada vídeo do [DevSemDrama no TikTok](https://www.tiktok.com/@devsemdrama). Sem cadastro, sem instalar nada, direto do celular.
 
-👉 **Acesse:** https://SEU-USUARIO.github.io/devsemdrama
+👉 **Acesse:** https://aluiziocatao.github.io/devsemdrama/
 
 ---
 
