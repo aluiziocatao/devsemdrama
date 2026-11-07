@@ -7,6 +7,10 @@
 <meta name="description" content="Exercícios rápidos de lógica de programação, um para cada vídeo do DevSemDrama.">
 <meta property="og:title" content="DevSemDrama · Exercícios">
 <meta property="og:description" content="Assistiu o vídeo? Agora testa se aprendeu. Exercícios rápidos de lógica de programação.">
+<!-- Estatísticas de acesso (GoatCounter). Troque SEU-CODIGO pelo código da sua conta. -->
+<script data-goatcounter="https://SEU-CODIGO.goatcounter.com/count"
+        data-goatcounter-settings='{"no_onload": true}'
+        async src="https://gc.zgo.at/count.js" onload="window.flushTrack && flushTrack()"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
@@ -225,6 +229,23 @@ let P = {};
 try { P = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { P = {}; }
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (e) {} };
 
+// ---------- Estatísticas (GoatCounter) ----------
+// Visitas: "/" é a página inicial, "/aula-05" o exercício do vídeo 05.
+// Eventos: resposta-05-p1-certa, concluiu-05-3de3, desafio-05, clique-tiktok.
+const fila = [];
+function track(path, title, event){
+  fila.push({path, title: title || path, event: !!event});
+  flushTrack();
+}
+window.flushTrack = function(){
+  const gc = window.goatcounter;
+  if(!gc || !gc.count) return;
+  while(fila.length){ try { gc.count(fila.shift()); } catch (e) {} }
+};
+document.addEventListener('click', e => {
+  if(e.target.closest('a[href*="tiktok.com"]')) track('clique-tiktok', 'Clique: seguir no TikTok', true);
+});
+
 const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function hl(code){
   const re=/(\/\/.*$|#.*$)|("[^"]*")|\b(let|const|function|if|else|for|while|return|true|false)\b|\b(\d+(?:\.\d+)?)\b|([A-Za-z_]\w*)(?=\()/gm;
@@ -298,13 +319,16 @@ function aula(a){
     const prev = (P[a.n]||{})[qi];
     if(prev!==undefined) mark(prev);
     el.querySelectorAll('.op').forEach(b=>b.addEventListener('click',()=>{
-      const ch = +b.dataset.o; P[a.n] = P[a.n]||{}; P[a.n][qi] = ch; save(); mark(ch); upd();
+      const ch = +b.dataset.o; P[a.n] = P[a.n]||{}; P[a.n][qi] = ch; save(); mark(ch);
+      track(`resposta-${a.n}-p${qi+1}-${ch===q.c?'certa':'errada'}`, `#${a.n} pergunta ${qi+1}: ${ch===q.c?'acertou':'errou'}`, true);
+      upd(true);
     }));
   });
-  document.getElementById('ver').addEventListener('click',e=>{ e.target.style.display='none'; app.querySelector('.ans').classList.add('on'); });
-  const upd = () => {
+  document.getElementById('ver').addEventListener('click',e=>{ e.target.style.display='none'; app.querySelector('.ans').classList.add('on'); track(`desafio-${a.n}`, `#${a.n} abriu a resposta do desafio`, true); });
+  const upd = (agora) => {
     if(done(a)<a.q.length) return;
     const h = hits(a), s = document.getElementById('score');
+    if(agora) track(`concluiu-${a.n}-${h}de${a.q.length}`, `#${a.n} concluído: ${h}/${a.q.length}`, true);
     s.classList.add('on');
     s.querySelector('.big').textContent = `${h}/${a.q.length}`;
     s.querySelector('p').textContent = h===a.q.length ? 'Gabaritou. Sem drama.' : h>=a.q.length-1 ? 'Mandou bem. Revê a explicação da que errou.' : 'Tudo bem errar. Assiste o vídeo de novo e tenta mais uma vez.';
@@ -317,6 +341,7 @@ function route(){
   const n = location.hash.replace('#','');
   const a = AULAS.find(x=>x.n===n);
   a ? aula(a) : home();
+  track(a ? `/aula-${a.n}` : '/', document.title);
 }
 window.addEventListener('hashchange', route);
 document.getElementById('reset').addEventListener('click',()=>{ P={}; save(); route(); });
